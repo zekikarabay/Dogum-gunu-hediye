@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎂</title>
+
+<style>
+body{
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+overflow:hidden;
+font-family:Arial;
+flex-direction:column;
+color:white;
+}
+
+#buton{
+width:40vw;  /* mobilde ekranın %40'ı kadar genişlik */
+max-width:200px; /* büyük ekranlarda 200px'i geçmesin */
+height:40vw;
+max-height:200px;
+border-radius:50%;
+font-size:10vw;  /* yazı boyutu ekran genişliğine göre */
+max-font-size:40px;
+border:none;
+cursor:pointer;
+background:red;
+color:white;
+}
+
+#mesaj{
+font-size:8vw;
+text-align:center;
+display:none;
+word-wrap:break-word;
+max-width:90%;
+}
+
+footer{
+position:fixed;
+bottom:5px;
+width:100%;
+text-align:center;
+color:gray;
+font-size:3vw;
+}
+
+.konfeti{
+position:absolute;
+width:3vw;
+height:3vw;
+border-radius:50%;
+}
+</style>
+</head>
+
+<body>
+
+<button id="buton" onclick="basla()">BAS</button>
+
+<div id="mesaj">🎂 Doğum Günün Kutlu Olsun! 🎉</div>
+
+<audio id="muzik" src="1.mp3"></audio>
+
+<footer>by Zeki Karabay</footer>
+
+<script>
+let konfetiInterval;
+let muzik = document.getElementById("muzik");
+
+function basla(){
+    document.getElementById("buton").style.display="none";
+    document.getElementById("mesaj").style.display="block";
+    
+    muzik.play();
+
+    // Müzik bitince tekrar başlat
+    muzik.addEventListener('ended', ()=> {
+        muzik.currentTime = 0;
+        muzik.play();
+    });
+
+    // Konfeti sonsuza kadar
+    konfetiInterval = setInterval(konfetiUret, 100);
+}
+
+function konfetiUret(){
+    let k = document.createElement("div");
+    k.className="konfeti";
+
+    k.style.left = (Math.random()*window.innerWidth) + "px";
+    k.style.top = (Math.random()*window.innerHeight) + "px";
+    k.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
+
+    document.body.appendChild(k);
+
+    let x = (Math.random()-0.5)*window.innerWidth/2;
+    let y = (Math.random()-0.5)*window.innerHeight/2;
+
+    k.animate([
+        {transform:"translate(0,0) rotate(0deg)"},
+        {transform:`translate(${x}px,${y}px) rotate(${Math.random()*720}deg)`}
+    ], {
+        duration: 2000,
+        easing: "ease-out"
+    });
+
+    setTimeout(()=> k.remove(), 5000);
+}
+</script>
+
+</body>
+</html>
